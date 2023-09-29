@@ -1,4 +1,4 @@
 {
-	"environment": "dev",
-	"name": "kojirou"
+	"environment": "prod",
+	"name": "senpai"
 }
