@@ -58,9 +58,10 @@ app.locals.ejson = ejson;
 import v1_home from "./routes/v1/home.js";
 import v1_skin from "./routes/v1/skin.js";
 import v1_user from "./routes/v1/user.js";
-app.use("/v1", v1_home);
-app.use("/v1/skin", v1_skin);
-app.use("/v1/user", v1_user);
+app.use("/", express.static("public"))
+app.use("/api/v1", v1_home);
+app.use("/api/v1/skin", v1_skin);
+app.use("/api/v1/user", v1_user);
 
 /*
 import Email from "./classes/Email/Email.js";
