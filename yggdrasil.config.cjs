@@ -2,7 +2,7 @@ module.exports = {
 	apps : [{
 		name: `quarky-skin-store-kojirou`,
 		script: 'npm run start',
-		env_phoenix: {
+		env_dev: {
 			QS_ENV: "kojirou",
 			NODE_ENV: "production"
 		}
@@ -22,7 +22,7 @@ module.exports = {
 			"ref"  : "origin/kojirou",
 			"repo" : "git@github.com:meower-holdings/quarky-skin-store.git",
 			"path" : "/home/q2/kojirou",
-			"post-deploy" : "yarn install && pm2 startOrRestart yggdrasil.config.cjs --only quarky-skin-store-kojirou --env kojirou"
+			"post-deploy" : "yarn install && pm2 startOrRestart yggdrasil.config.cjs --only quarky-skin-store-kojirou --env dev"
 		},
 		senpai : {
 			"user" : "q2",
