@@ -3,7 +3,7 @@ module.exports = {
 		name: `quarky-skin-store-kojirou`,
 		script: 'npm run start',
 		env_phoenix: {
-			QS_ENV: "phoenix",
+			QS_ENV: "kojirou",
 			NODE_ENV: "production"
 		}
 	},{
