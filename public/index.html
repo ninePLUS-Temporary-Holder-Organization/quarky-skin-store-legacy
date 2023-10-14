@@ -6,5 +6,44 @@
 </head>
 <body>
 <p>This is the store that skins quarks</p>
+<form id="testLoginForm">
+	<label>
+		Username:
+		<input type="text" autocomplete="username"/>
+	</label>
+	<label>
+		Password:
+		<input type="password" autocomplete="password"/>
+	</label>
+	<label>
+		Network baseUrl:
+		<input type="url" autocomplete="off">
+	</label>
+	<input type="submit">
+</form>
+<p id="output"></p>
+<script>
+	testLoginForm.onsubmit = (e) => {
+		e.preventDefault();
+		fetch(`${document.querySelector('input[type="url"]').value}/v1/auth/token`, {
+			headers: {
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify({
+				password: document.querySelector('input[type="password"]').value,
+				email: document.querySelector('input[type="text"]').value
+			}),
+			method: "POST"
+		}).then(res => res.json()).then(res => {
+			fetch("/api/v1/user/me", {
+				headers: {
+					"Authorization": `Bearer ${res.response.access_token}`
+				}
+			}).then(res => res.json()).then(res => {
+				output.innerHTML = JSON.stringify(res);
+			})
+		})
+	}
+</script>
 </body>
 </html>

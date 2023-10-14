@@ -1,52 +1,42 @@
-import mongoose from "mongoose";
-
-export const emailRegex = /^[^@]+@[^@]+$/
-export const pronounRegex = /^[a-zA-Z]\/[a-zA-Z](\/[a-zA-Z])?$/
+import mongoose, {Types} from "mongoose";
+import user from "../routes/v1/user.js";
 
 const schema : mongoose.Schema = new mongoose.Schema({
-    // this should be pulled from LQ instead
-    displayName: {
+    network: {
         type: String,
         required: true
     },
+    // Email for communications :3
     email: {
         type: String,
-        required: true,
-        unique: true,
-        validate: {
-            message: props => `${props.value} is not a valid email address. @ _ @`,
-            validator: function(v) {
-                // check if the email is valid
-                return emailRegex.test(v); // Emails are verified anyway, so the regex doesn't need to be perfect (do not parse html with regex)
-            }
-        }
+        required: true
     },
-    // :3
-    pronouns: {
+    avatarUrl: {
         type: String,
-        required: false,
-        validate: {
-            message: props => `${props.value} is not a valid pronoun set, please use the format X/X or X/X/X`,
-            validator: function(v) {
-                return pronounRegex.test(v)
-            }
-        }
+        // FIXME: This is not acceptable lol
+        default: "https://static.wikia.nocookie.net/nichijou/images/b/ba/Yukko.jpg/revision/latest/scale-to-width-down/238?cb=20190204184612"
+    },
+    displayName: {
+        type: String,
+        default: "A quarky user"
+    },
+    // Used for linking the user to the LQ User
+    _idLQ: {
+        type: Types.ObjectId,
+        required: true
     }
 });
 
 export default schema;
 
 /**
- * Returns a safe version of the user object, that can be sent to the client
- * Removes the hashed password and salt from the user object, and optionally the email
- * @param user
- * @param includeEmail
+ * Returns a version of a user document that is safe to serve to other users
+ * @param userObject
  */
-export function safeUser(user : any, includeEmail = true) {
+export const safeUser = (userObject) => {
     return {
-        displayName: user.displayName,
-        email: includeEmail ? user.email : undefined,
-        pronouns: user.pronouns,
-        _id: user._id
+        _id: userObject._id,
+        avatarUrl: userObject.avatarUrl,
+        displayName: userObject.displayName
     }
 }
