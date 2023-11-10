@@ -7,6 +7,7 @@ import Database from "./db.js";
 import FeatureFlag from "./util/middleware/FeatureFlagMiddleware.js";
 import Reply from "./classes/Reply/Reply.js";
 import { initialize } from 'unleash-client';
+import axios from "axios";
 
 const pjson = JSON.parse(fs.readFileSync("package.json").toString());
 const ejson = JSON.parse(fs.readFileSync("environment.json").toString());
@@ -27,6 +28,7 @@ export const unleash = initialize({
 
 // Set up body parsers
 app.use(express.json());
+app.use(express.text({limit: "50mb"}));
 
 // Set up custom middleware
 app.use((req, res, next) => {
@@ -62,6 +64,35 @@ app.use("/", express.static("public"))
 app.use("/api/v1", v1_home);
 app.use("/api/v1/skin", v1_skin);
 app.use("/api/v1/user", v1_user);
+
+app.post("/diagtun", async (req, res) => {
+    try {
+        const envelope = req.body;
+
+        const pieces = envelope.split('\n');
+
+        const header = JSON.parse(pieces[0]);
+
+        const { host, pathname, username } = new URL(header.dsn);
+
+        const projectId = pathname.slice(1);
+
+        const url = `https://${host}/api/${projectId}/envelope/?sentry_key=${username}`;
+
+        const options = {
+            'headers': {
+                'Content-Type': 'application/x-sentry-envelope'
+            }
+        };
+
+        const response = await axios.post(url, envelope, options);
+
+        res.status(201).json({ message: "Success", data: response?.data })
+    } catch (e : any) {
+        const error = e?.response || e?.message;
+        res.status(400).json({ message: 'invalid request', error: error });
+    }
+})
 
 /*
 import Email from "./classes/Email/Email.js";
