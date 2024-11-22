@@ -23,8 +23,7 @@
 		"mongoose": "^7.5.3",
 		"nodemailer": "^6.9.5",
 		"pm2": "^5.3.0",
-		"typescript": "^5.2.2",
-		"unleash-client": "^4.1.1"
+		"typescript": "^5.2.2"
 	},
 	"devDependencies": {
 		"@types/express": "^4.17.18",

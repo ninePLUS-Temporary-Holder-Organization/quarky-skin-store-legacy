@@ -18,7 +18,7 @@ module.exports = {
 	deploy : {
 		kojirou : {
 			"user" : "q2",
-			"host" : ["cirno.yggdrasil.cat"],
+			"host" : ["100.109.55.103"],
 			"ref"  : "origin/kojirou",
 			"repo" : "git@github.com:meower-holdings/quarky-skin-store.git",
 			"path" : "/home/q2/kojirou",
@@ -26,7 +26,7 @@ module.exports = {
 		},
 		senpai : {
 			"user" : "q2",
-			"host" : ["cirno.yggdrasil.cat"],
+			"host" : ["100.109.55.103"],
 			"ref"  : "origin/senpai",
 			"repo" : "git@github.com:meower-holdings/quarky-skin-store.git",
 			"path" : "/home/q2/senpai",
